@@ -143,13 +143,13 @@ VGG_A_11 = [
 CATS_AND_DOGS = [
     hpo.Layer(layer_name="input_layer_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=16, value_range=[2**x for x in range(1, 9)], constraints=None),# range from 2-512
-        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None),
         hpo.Parameter(parameter_name="input_shape", parameter_value=(224, 224, 3))
     ],
     hyperparameters=[
+        hpo.Parameter(parameter_name="filters", parameter_value=64, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)
     ]),
 
     hpo.Layer(layer_name="hidden_layer_1_max_pooling", layer_type=tf.keras.layers.MaxPooling2D,
@@ -158,12 +158,12 @@ CATS_AND_DOGS = [
 
     hpo.Layer(layer_name="hidden_layer_2_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=32, value_range=[2**x for x in range(1, 9)], constraints=None),# range from 2-512
-        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
-        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)
+        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
+        hpo.Parameter(parameter_name="filters", parameter_value=128, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)
     ]),
 
     hpo.Layer(layer_name="hidden_layer_3_max_pooling", layer_type=tf.keras.layers.MaxPooling2D,
@@ -173,13 +173,12 @@ CATS_AND_DOGS = [
     #4 - Conv 2D - Optimise
     hpo.Layer(layer_name="hidden_layer_4_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=64, value_range=[2**x for x in range(1, 9)], constraints=None),# range from 2-512
-        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
-        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)
+        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-
+        hpo.Parameter(parameter_name="filters", parameter_value=256, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)
     ]),
 
     hpo.Layer(layer_name="hidden_layer_5_max_pooling", layer_type=tf.keras.layers.MaxPooling2D,
@@ -189,12 +188,12 @@ CATS_AND_DOGS = [
     #6 - Conv 2D - Optimise
     hpo.Layer(layer_name="hidden_layer_6_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=128, value_range=[2**x for x in range(1, 9)], constraints=None),# range from 2-512
-        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 11
-        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
+        hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
+        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 11
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
     ]),
 
     hpo.Layer(layer_name="hidden_layer_7_max_pooling", layer_type=tf.keras.layers.MaxPooling2D,
@@ -216,10 +215,10 @@ CATS_AND_DOGS = [
 
     hpo.Layer(layer_name="hidden_layer_10_dense", layer_type=tf.keras.layers.Dense,
     parameters=[
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="units", parameter_value=512, value_range=[2**x for x in range(7, 11)], constraints=None),#range between 4 and 512
+        hpo.Parameter(parameter_name="units", parameter_value=512, value_range=[2**x for x in range(6, 14)], constraints=None),#range between 64 and 8192
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
     ]),
 
     hpo.Layer(layer_name="hidden_layer_11_dropout", layer_type=tf.keras.layers.Dropout,
@@ -232,10 +231,10 @@ CATS_AND_DOGS = [
 
     hpo.Layer(layer_name="hidden_layer_12_dense", layer_type=tf.keras.layers.Dense,
     parameters=[
-        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="units", parameter_value=256, value_range=[2**x for x in range(6, 10)], constraints=None),#range between 4 and 512
+        hpo.Parameter(parameter_name="units", parameter_value=256, value_range=[2**x for x in range(6, 14)], constraints=None),#range between 64 and 8192
+        hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None)#need to add more
     ]),
 
     hpo.Layer(layer_name="hidden_layer_12_dropout", layer_type=tf.keras.layers.Dropout,
@@ -243,13 +242,13 @@ CATS_AND_DOGS = [
         hpo.Parameter(parameter_name="seed", parameter_value=42)
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="rate", parameter_value=0.2 , value_range=np.arange(0.0, 0.4, 0.1).tolist(), constraints=None)
+        hpo.Parameter(parameter_name="rate", parameter_value=0.2, value_range=np.arange(0.0, 0.4, 0.1).tolist(), constraints=None)
     ]),
 
     hpo.Layer(layer_name="output_layer_dense", layer_type=tf.keras.layers.Dense,
     parameters=[
-        hpo.Parameter(parameter_name="activation", parameter_value="softmax", value_range=["tanh", "softmax"], constraints=None),#need to add more
         hpo.Parameter(parameter_name="units", parameter_value=150)
     ],
     hyperparameters=[
+        hpo.Parameter(parameter_name="activation", parameter_value="softmax", value_range=["tanh", "sigmoid", "softmax"], constraints=None)#need to add more
     ])]
