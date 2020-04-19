@@ -61,7 +61,8 @@ class BirdData(hpo.Data):
             if shuffle:
                 dataset = dataset.shuffle(buffer_size=shuffle_buffer_size, seed=shuffle_seed)
 
-            dataset = dataset.repeat()
+            if repeat:
+                dataset = dataset.repeat()
 
             if batch_size > 0:
                 dataset = dataset.batch(batch_size)
