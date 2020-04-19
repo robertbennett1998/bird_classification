@@ -37,7 +37,7 @@ model_configuration.hyperparameter_summary(True)
 strategy = hpo.strategies.random_search.RandomSearch(model_configuration, 100)
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "cats_and_dogs_hpo_bayesian_random_forest.results"))
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_random_search.results"))
 
 #####################################
 # Bayesian Selection - Random Forest
@@ -45,7 +45,7 @@ hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "cats_and_dogs
 strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 100, hpo.strategies.bayesian_method.RandomForestSurrogate())
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "cats_and_dogs_hpo_bayesian_random_forest.results"))
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_random_forest.results"))
 
 #########################################
 # Genetic Algorithm - Roulette Selection
@@ -56,4 +56,4 @@ strategy.mutation_strategy().mutation_probability(0.05)
 strategy.survivour_selection_strategy().survivour_percentage(0.7)
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "cats_and_dogs_hpo_genetic_algorithm_roulette.results"))
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_genetic_algorithm_roulette.results"))
