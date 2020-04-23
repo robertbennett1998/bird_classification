@@ -20,24 +20,16 @@ def construct_chromosome():
 
 
 def construct_bird_data():
-    return bird_classification_data.BirdData(data_dir, cache_path, 100, 100, 100)
+    return bird_classification_data.BirdData(data_dir, cache_path, 10, 10, 10)
 
 
 def model_exception_handler(e):
     print("Exception occured while training the model.", e)
 
 
-model_configuration = hpo.ModelConfiguration(optimiser=model_configurations.optimiser, layers=model_configurations.cats_and_dogs_cnn, loss_function="categorical_crossentropy", number_of_epochs=10)
+model_configuration = hpo.ModelConfiguration(optimiser=model_configurations.optimiser, layers=model_configurations.VGG_A_11, loss_function="categorical_crossentropy", number_of_epochs=10)
 print(model_configuration.number_of_hyperparameters())
 model_configuration.hyperparameter_summary(True)
-
-#####################################
-# Random Search
-#####################################
-strategy = hpo.strategies.random_search.RandomSearch(model_configuration, 100)
-hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
-
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_random_search.results"))
 
 #####################################
 # Bayesian Selection - Random Forest
@@ -46,6 +38,14 @@ strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 10
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
 hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_random_forest.results"))
+
+#####################################
+# Random Search
+#####################################
+strategy = hpo.strategies.random_search.RandomSearch(model_configuration, 100)
+hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
+
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_random_search.results"))
 
 #########################################
 # Genetic Algorithm - Roulette Selection

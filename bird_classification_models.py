@@ -150,7 +150,7 @@ cats_and_dogs_cnn = [
     hpo.Layer(layer_name="input_layer_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="input_shape", parameter_value=(224, 224, 3))
+        hpo.Parameter(parameter_name="input_shape", parameter_value=(200, 200, 3))
     ],
     hyperparameters=[
         hpo.Parameter(parameter_name="filters", parameter_value=64, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
