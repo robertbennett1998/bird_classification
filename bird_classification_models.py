@@ -150,10 +150,10 @@ cats_and_dogs_cnn = [
     hpo.Layer(layer_name="input_layer_conv_2d", layer_type=tf.keras.layers.Conv2D,
     parameters=[
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None),#need to add more
-        hpo.Parameter(parameter_name="input_shape", parameter_value=(224, 224, 3))
+        hpo.Parameter(parameter_name="input_shape", parameter_value=(112, 112, 3))
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=64, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 11)], constraints=None),# range from 16-2048
         hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None, encode_string_values=True)
     ]),
@@ -167,7 +167,7 @@ cats_and_dogs_cnn = [
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=128, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 11)], constraints=None),# range from 16-2048
         hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None, encode_string_values=True)
     ]),
@@ -182,7 +182,7 @@ cats_and_dogs_cnn = [
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=256, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 11)], constraints=None),# range from 16-2048
         hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 10
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None, encode_string_values=True)
     ]),
@@ -197,7 +197,7 @@ cats_and_dogs_cnn = [
         hpo.Parameter(parameter_name="padding", parameter_value="same", value_range=["same", "valid"], constraints=None)#need to add more
     ],
     hyperparameters=[
-        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 12)], constraints=None),# range from 16-2048
+        hpo.Parameter(parameter_name="filters", parameter_value=512, value_range=[2**x for x in range(4, 11)], constraints=None),# range from 16-2048
         hpo.Parameter(parameter_name="kernel_size", parameter_value=3, value_range=range(2, 11), constraints=None),#kernal size range from 2 to 11
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["relu", "tanh", "sigmoid"], constraints=None, encode_string_values=True)#need to add more
     ]),
@@ -224,7 +224,7 @@ cats_and_dogs_cnn = [
     ],
     hyperparameters=[
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["tanh", "sigmoid", "relu"], constraints=None, encode_string_values=True),#need to add more
-        hpo.Parameter(parameter_name="units", parameter_value=512, value_range=[2**x for x in range(7, 15)], constraints=None)#range between 4 and 16384
+        hpo.Parameter(parameter_name="units", parameter_value=4096, value_range=[2**x for x in range(7, 14)], constraints=None)#range between 4 and 16384
     ]),
 
     hpo.Layer(layer_name="hidden_layer_11_dropout", layer_type=tf.keras.layers.Dropout,
@@ -240,7 +240,7 @@ cats_and_dogs_cnn = [
     ],
     hyperparameters=[
         hpo.Parameter(parameter_name="activation", parameter_value="relu", value_range=["tanh", "sigmoid", "relu"], constraints=None, encode_string_values=True),#need to add more
-        hpo.Parameter(parameter_name="units", parameter_value=256, value_range=[2**x for x in range(6, 15)], constraints=None)#range between 4 and 16384
+        hpo.Parameter(parameter_name="units", parameter_value=4096, value_range=[2**x for x in range(6, 13)], constraints=None)#range between 4 and 16384
     ]),
 
     hpo.Layer(layer_name="hidden_layer_12_dropout", layer_type=tf.keras.layers.Dropout,
