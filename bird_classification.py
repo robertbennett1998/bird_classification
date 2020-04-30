@@ -15,8 +15,8 @@ if not os.path.exists(cache_path):
     os.mkdir(cache_path)
 
 
-def construct_chromosome():
-    return hpo.strategies.genetic_algorithm.DefaultChromosome(model_configuration)
+def construct_chromosome(remote_model_type):
+    return hpo.strategies.genetic_algorithm.DefaultChromosome(model_configuration, remote_model_type)
 
 
 def construct_bird_data():
@@ -27,22 +27,20 @@ def model_exception_handler(e):
     print("Exception occured while training the model.", e)
 
 
-model_configuration = hpo.ModelConfiguration(optimiser=model_configurations.optimiser, layers=model_configurations.cats_and_dogs_cnn, loss_function="categorical_crossentropy", number_of_epochs=1)
-print(model_configuration.number_of_hyperparameters())
-model_configuration.hyperparameter_summary(True)
+model_configuration = hpo.DefaulDLModelConfiguration(optimiser=model_configurations.optimiser, layers=model_configurations.cnn, loss_function="categorical_crossentropy", number_of_epochs=20)
 
 #####################################
 # Bayesian Selection - Random Forest
 #####################################
-strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 100, hpo.strategies.bayesian_method.RandomForestSurrogate())
+strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 50, hpo.strategies.bayesian_method.RandomForestSurrogate())
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_random_forest.results"))
+hpo_experiment_runner.run_with_live_graphs(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_random_forest.results"))
 
 #####################################
 # Random Search
 #####################################
-strategy = hpo.strategies.random_search.RandomSearch(model_configuration, 100)
+strategy = hpo.strategies.random_search.RandomSearch(model_configuration, 50)
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
 hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_random_search.results"))
@@ -50,10 +48,10 @@ hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classifi
 #########################################
 # Genetic Algorithm - Roulette Selection
 ##########################################
-strategy = hpo.strategies.genetic_algorithm.GeneticAlgorithm(population_size=10, max_iterations=10, chromosome_type=construct_chromosome,
+strategy = hpo.strategies.genetic_algorithm.GeneticAlgorithm(population_size=10, max_iterations=5, chromosome_type=construct_chromosome,
                                                             survivour_selection_stratergy="roulette")
-strategy.mutation_strategy().mutation_probability(0.05)
-strategy.survivour_selection_strategy().survivour_percentage(0.7)
+strategy.mutation_strategy().mutation_probability(0.1)
+strategy.survivour_selection_strategy().survivour_percentage(0.8)
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
 hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_genetic_algorithm_roulette.results"))
