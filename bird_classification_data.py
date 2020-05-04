@@ -19,7 +19,7 @@ class BirdData(hpo.Data):
         self._test_image_count = 0
 
         self._class_labels = self._get_class_labels()
-
+        print(len(self._class_labels))
         self._training_data = None
         self._validation_data = None
         self._test_data = None
@@ -43,7 +43,7 @@ class BirdData(hpo.Data):
             img = tf.io.read_file(path)
             img = tf.image.decode_jpeg(img, channels=3)
             img = tf.image.convert_image_dtype(img, tf.float32)
-            img = tf.image.resize(img, [224, 224])
+            img = tf.image.resize(img, [112, 112])
 
             return img, class_label == self._class_labels
 
