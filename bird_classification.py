@@ -47,10 +47,31 @@ hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classifi
 #####################################
 # Bayesian Selection - Random Forest
 #####################################
+strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 60, hpo.strategies.bayesian_method.RandomForestSurrogate(sample_size=10000))
+hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
+
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_random_forest.results"))
+
+
+#####################################
+# Bayesian Selection - Random Forest
+#####################################
 strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 120, hpo.strategies.bayesian_method.RandomForestSurrogate(sample_size=10000))
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
 hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "120_iterations_bird_classification_hpo_bayesian_random_forest.results"))
+
+#########################################
+# Genetic Algorithm - Threshold Selection
+##########################################
+strategy = hpo.strategies.genetic_algorithm.GeneticAlgorithm(population_size=10, max_iterations=6, chromosome_type=construct_chromosome,
+                                             survivour_selection_stratergy="threshold")
+strategy.mutation_strategy().mutation_probability(0.05)
+strategy.survivour_selection_strategy().threshold(0.9)
+hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy)
+
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_genetic_algorithm_threshold.results"))
+
 
 #########################################
 # Genetic Algorithm - Threshold Selection
@@ -72,4 +93,4 @@ strategy.mutation_strategy().mutation_probability(0.2)
 strategy.survivour_selection_strategy().survivour_percentage(0.8)
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
-hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "120_iterations_bird_classification_hpo_genetic_algorithm_roulette.results"))
+hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_genetic_algorithm_roulette.results"))
