@@ -87,7 +87,7 @@ hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "20_pop_bird_c
 ########################################
 # Genetic Algorithm - Roulette Selection
 #########################################
-strategy = hpo.strategies.genetic_algorithm.GeneticAlgorithm(population_size=20, max_iterations=6, chromosome_type=construct_chromosome,
+strategy = hpo.strategies.genetic_algorithm.GeneticAlgorithm(population_size=10, max_iterations=6, chromosome_type=construct_chromosome,
                                                            survivour_selection_stratergy="roulette")
 strategy.mutation_strategy().mutation_probability(0.2)
 strategy.survivour_selection_strategy().survivour_percentage(0.8)
