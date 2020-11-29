@@ -20,7 +20,7 @@ def construct_chromosome(remote_model_type):
 
 
 def construct_bird_data():
-    return bird_classification_data.BirdData(data_dir, cache_path, 30, 30, 30)
+    return bird_classification_data.BirdData(data_dir, cache_path, 50, 50, 50)
 
 
 def model_exception_handler(e):
@@ -43,6 +43,10 @@ strategy = hpo.strategies.bayesian_method.BayesianMethod(model_configuration, 60
 hpo_instance = hpo.Hpo(model_configuration, construct_bird_data, strategy, model_exception_handler=model_exception_handler)
 
 hpo_experiment_runner.run(hpo_instance, os.path.join(os.getcwd(), "bird_classification_hpo_bayesian_gaussian_process.results"))
+
+model_configuration = hpo.ModelConfiguration(optimiser=model_configurations.optimiser, layers=model_configurations.cats_and_dogs_cnn, loss_function="categorical_crossentropy", number_of_epochs=10)
+print(model_configuration.number_of_hyperparameters())
+model_configuration.hyperparameter_summary(True)
 
 #####################################
 # Bayesian Selection - Random Forest
