@@ -19,7 +19,7 @@ class BirdData(hpo.Data):
         self._test_image_count = 0
 
         self._class_labels = self._get_class_labels()
-
+        print(len(self._class_labels))
         self._training_data = None
         self._validation_data = None
         self._test_data = None
@@ -76,21 +76,31 @@ class BirdData(hpo.Data):
         validation_paths = [os.path.join(os.path.join(os.path.join(self._data_dir, "valid"), label), "*.jpg") for label in self._class_labels]
         testing_paths = [os.path.join(os.path.join(os.path.join(self._data_dir, "test"), label), "*.jpg") for label in self._class_labels]
 
-        self._training_image_count = sum([len(glob.glob(training_path)) for training_path in training_paths])
-        self._validation_image_count = sum([len(glob.glob(validation_path)) for validation_path in validation_paths])
-        self._test_batch_size = sum([len(glob.glob(testing_path)) for testing_path in testing_paths])
+        image_count = sum([len(glob.glob(training_path)) for training_path in training_paths])
+        image_count += sum([len(glob.glob(validation_path)) for validation_path in validation_paths])
+        image_count += sum([len(glob.glob(testing_path)) for testing_path in testing_paths])
 
-        training_filepaths_ds = tf.data.Dataset.list_files(training_paths, seed=42, shuffle=True)
-        validation_filepaths_ds = tf.data.Dataset.list_files(validation_paths, seed=42, shuffle=True)
-        test_filepaths_ds = tf.data.Dataset.list_files(testing_paths, seed=42, shuffle=True)
+        self._training_image_count = int(image_count * 0.7)
+        self._validation_image_count = int(image_count * 0.3)
+
+        self._training_image_count += (image_count - (self._training_image_count + self._validation_image_count)) # add an extra if rounding error
+
+        print("NUMBER OF TRAINING SAMPLES:", self._training_image_count)
+        print("NUMBER OF VALIDATION SAMPLES:", self._validation_image_count)
+
+        filepaths_ds = tf.data.Dataset.list_files(training_paths, seed=42, shuffle=True)
+        filepaths_ds = filepaths_ds.concatenate(tf.data.Dataset.list_files(validation_paths, seed=42, shuffle=True))
+        filepaths_ds = filepaths_ds.concatenate(tf.data.Dataset.list_files(testing_paths, seed=42, shuffle=True))
+
+        training_filepaths_ds = filepaths_ds.take(self._training_image_count)
+        validation_filepaths_ds = filepaths_ds.skip(self._training_image_count)
 
         training_images = training_filepaths_ds.map(get_jpeg_from_filepath, num_parallel_calls=tf.data.experimental.AUTOTUNE)
         validation_images = validation_filepaths_ds.map(get_jpeg_from_filepath, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-        test_images = test_filepaths_ds.map(get_jpeg_from_filepath, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 
         self._training_data = prepare_dataset(training_images, self._training_batch_size, cache=os.path.join(self._cache_path, "training_images.tfcache"))
         self._validation_data = prepare_dataset(validation_images, self._validation_batch_size, cache=os.path.join(self._cache_path, "validation_images.tfcache"))
-        self._validation_data = prepare_dataset(test_images, self._validation_batch_size, cache=os.path.join(self._cache_path, "validation_images.tfcache"))
+
 
     def training_steps(self):
         return self._training_image_count // self._training_batch_size
